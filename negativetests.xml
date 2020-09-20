@@ -1,0 +1,11 @@
+<suite name="NegativeTests" verbose="2">
+    <test name="NegativeFunctionalTests">
+        <classes>
+            <class name="tests.CartTests"/>
+            <methods>
+                <include name="checkErrorMessageWhenEnterLargeNumberOfProduct"/>
+                <include name="checkImpossibilityToAddLargeNumberOfProductToCart"/>
+            </methods>
+        </classes>
+    </test>
+</suite>

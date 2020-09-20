@@ -1,0 +1,13 @@
+<suite name="PositiveTests" verbose="2">
+    <test name="PositiveFunctionalTests">
+        <classes>
+            <class name="tests.SearchTests"/>
+            <class name="tests.CategoryItemsTests"/>
+            <class name="tests.CartTests"/>
+                <methods>
+                    <include name="checkItemPricesInCart"/>
+                    <include name="checkQuantityOnCartLogo"/>
+                </methods>
+        </classes>
+    </test>
+</suite>
