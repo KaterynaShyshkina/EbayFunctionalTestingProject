@@ -25,7 +25,6 @@ public class SearchTests extends Hooks {
         var searchPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD);
         Thread.sleep(10000);
         for (WebElement itemTitle : searchPage.getProductItemTitles()) {
-            System.out.println(itemTitle.getText());
             assertTrue(itemTitle.getText().toLowerCase().contains(EXPECTED_SEARCH_ITEM_TITLE));
         }
     }
