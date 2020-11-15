@@ -6,12 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 
-public class HomePage extends BasePage {
+public class HomePage extends AbstractPage {
 
     @FindBy(id = "gh-ac")
     WebElement searchInputField;
 
-    @FindBy(xpath = "//li[@data-hover-track='p2481888.m1379.l6435']")
+    @FindBy(xpath = "//a[text()='Electronics']/parent::li")
     WebElement electronicsListItem;
 
     @FindBy(id = "gh-cart-n")
@@ -21,12 +21,14 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
-    public void searchItemsByKeyword(String keyword) {
+    public SearchResultPage searchItemsByKeyword(String keyword) {
         searchInputField.sendKeys(keyword, Keys.ENTER);
+        return new SearchResultPage(driver);
     }
 
-    public void clickOnElectronicsMenu() {
+    public ElectronicsCategoryPage clickOnElectronicsMenu() {
         electronicsListItem.click();
+        return new ElectronicsCategoryPage(driver);
     }
 
     public WebElement getCartQuantity() {

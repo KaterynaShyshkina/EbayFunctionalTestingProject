@@ -1,60 +1,58 @@
 package tests;
 
+import Hooks.Hooks;
 import org.testng.annotations.Test;
+import pages.HomePage;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class CartTests extends BaseTest {
+public class CartTests extends Hooks {
 
     private final static String SEARCH_KEYWORD = "samsung";
     private final static String EXPECTED_QUANTITY = "1";
     private final static String ITEM_QUANTITY = "200";
 
-    @Test(priority = 7)
+    @Test
     public void checkItemPricesInCart() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        getSearchingResultPage().clickOnFirstItemLink();
-        getBasePage().waitForPageLoadComplete(5);
-        getProductPage().clickOnAddToCartButton();
-        getBasePage().waitForPageLoadComplete(5);
-        assertEquals(getCartPage().getItemPriceText(), getCartPage().getCartItemPriceText(), getCartPage().getTotalCartPriceText());
+        var productPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD)
+                .clickOnFirstItemLink()
+                .selectItemColour();
+        String itemPrice = productPage.getItemPrice();
+        var cartPage = productPage.clickOnAddToCartButton();
+        assertEquals(cartPage.getCartItemPriceText(), itemPrice);
     }
 
-    @Test(priority = 8)
+    @Test
     public void checkQuantityOnCartLogo() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        getSearchingResultPage().clickOnFirstItemLink();
-        getBasePage().waitForPageLoadComplete(5);
-        getProductPage().clickOnAddToCartButton();
-        getBasePage().waitForPageLoadComplete(5);
-        getCartPage().clickOnLogoHomeLink();
-        getBasePage().waitForPageLoadComplete(5);
-        getBasePage().waitVisibilityOfElement(5, getHomePage().getCartQuantity());
-        assertEquals(getHomePage().getCartQuantityText(), EXPECTED_QUANTITY);
+        var homePage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD)
+                .clickOnFirstItemLink()
+                .selectItemColour()
+                .clickOnAddToCartButton()
+                .clickOnLogoHomeLink();
+        assertEquals(homePage.getCartQuantityText(), EXPECTED_QUANTITY);
     }
 
-    @Test(priority = 9)
+    @Test
     public void checkErrorMessageWhenEnterLargeNumberOfProduct() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        getSearchingResultPage().clickOnFirstItemLink();
-        getBasePage().waitForPageLoadComplete(5);
-        getProductPage().clearItemQuantity();
-        getProductPage().enterItemQuantity(ITEM_QUANTITY);
-        assertTrue(getProductPage().checkQuantityErrorMessageIsDisplayed());
+        var productPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD)
+                .clickOnFirstItemLink()
+                .selectItemColour()
+                .clearItemQuantity()
+                .enterItemQuantity(ITEM_QUANTITY);
+        assertTrue(productPage.checkQuantityErrorMessageIsDisplayed());
     }
 
-    @Test(priority = 10)
+    @Test
     public void checkImpossibilityToAddLargeNumberOfProductToCart() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        getSearchingResultPage().clickOnFirstItemLink();
-        getBasePage().waitForPageLoadComplete(5);
-        String expectedProductPageUrl = getDriver().getCurrentUrl();
-        getProductPage().clearItemQuantity();
-        getProductPage().enterItemQuantity(ITEM_QUANTITY);
-        getProductPage().clickOnAddToCartButton();
-        String actualProductPageUrl = getDriver().getCurrentUrl();
-        assertEquals(actualProductPageUrl, expectedProductPageUrl);
+        var productPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD)
+                .clickOnFirstItemLink()
+                .selectItemColour();
+        String expectedProductPageUrl = driver.getCurrentUrl();
+        productPage.clearItemQuantity()
+                .enterItemQuantity(ITEM_QUANTITY)
+                .clickOnAddToCartButton();
+        assertEquals(driver.getCurrentUrl(), expectedProductPageUrl);
     }
 
 }

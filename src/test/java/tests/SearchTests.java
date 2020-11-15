@@ -1,35 +1,39 @@
 package tests;
 
+import Hooks.Hooks;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
+import pages.HomePage;
 
 import static org.testng.Assert.assertTrue;
 
 
-public class SearchTests extends BaseTest {
+public class SearchTests extends Hooks {
 
     private final static String SEARCH_KEYWORD = "samsung";
     private final static String EXPECTED_SEARCH_QUERY = "samsung";
     private final static String EXPECTED_SEARCH_ITEM_TITLE = "samsung";
 
-    @Test(priority = 1)
-    public void checkSearchingResultUrl() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        assertTrue(getSearchingResultPage().checkUrlContainsQuery(EXPECTED_SEARCH_QUERY));
+    @Test
+    public void checkSearchQuery() {
+        var searchPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD);
+        assertTrue(searchPage.checkUrlContainsQuery(EXPECTED_SEARCH_QUERY));
     }
 
-    @Test(priority = 2)
-    public void checkItemsTitlesOnSearchingResultPage() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        for (WebElement itemTitle : getSearchingResultPage().getSearchResultItemTitles()) {
+    @Test
+    public void checkProductItemsTitles() throws InterruptedException {
+        var searchPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD);
+        Thread.sleep(10000);
+        for (WebElement itemTitle : searchPage.getProductItemTitles()) {
+            System.out.println(itemTitle.getText());
             assertTrue(itemTitle.getText().toLowerCase().contains(EXPECTED_SEARCH_ITEM_TITLE));
         }
     }
 
-    @Test(priority = 3)
-    public void checkSponsoredItemsTitlesOnSearchingResultPage() {
-        getHomePage().searchItemsByKeyword(SEARCH_KEYWORD);
-        for (WebElement itemTitle : getSearchingResultPage().getSearchResultSponsoredItemTitles()) {
+    @Test
+    public void checkSponsoredItemsTitles() {
+        var searchPage = new HomePage(driver).searchItemsByKeyword(SEARCH_KEYWORD);
+        for (WebElement itemTitle : searchPage.getSponsoredItemTitles()) {
             assertTrue(itemTitle.getText().toLowerCase().contains(EXPECTED_SEARCH_ITEM_TITLE));
         }
     }

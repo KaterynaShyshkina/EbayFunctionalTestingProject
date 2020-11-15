@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class CartPage extends BasePage{
+public class CartPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@class='item-price']")
     WebElement itemPrice;
@@ -34,8 +34,9 @@ public class CartPage extends BasePage{
         return totalCartPrice.getText();
     }
 
-    public void clickOnLogoHomeLink() {
+    public HomePage clickOnLogoHomeLink() {
         logoHomeLink.click();
+        return new HomePage(driver);
     }
 
 }

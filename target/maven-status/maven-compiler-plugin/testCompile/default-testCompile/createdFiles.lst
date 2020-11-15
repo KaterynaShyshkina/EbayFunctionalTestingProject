@@ -1,0 +1,12 @@
+pages\SearchingResultPage.class
+pages\BasePage.class
+tests\CartTests.class
+pages\ProductPage.class
+pages\ElectronicsCategoryPage.class
+pages\CartPage.class
+pages\HomePage.class
+driver\DriverInstance.class
+pages\CameraDronesPage.class
+tests\BaseTest.class
+tests\CategoryItemsTests.class
+tests\SearchTests.class

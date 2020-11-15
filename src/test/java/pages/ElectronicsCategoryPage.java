@@ -4,17 +4,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ElectronicsCategoryPage extends BasePage{
+public class ElectronicsCategoryPage extends AbstractPage {
 
-    @FindBy(xpath = "//div[contains(text(), 'Camera Drones')]")
+    @FindBy(xpath = "//div[text()='Camera Drones']")
     WebElement cameraDronesCategoryLink;
 
     public ElectronicsCategoryPage(WebDriver driver) {
         super(driver);
     }
 
-    public void clickOnCameraDronesCategoryLink() {
+    public CameraDronesPage clickOnCameraDronesCategoryLink() {
         cameraDronesCategoryLink.click();
+        return new CameraDronesPage(driver);
     }
 
 }

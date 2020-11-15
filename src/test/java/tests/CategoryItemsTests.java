@@ -1,39 +1,38 @@
 package tests;
 
+import Hooks.Hooks;
 import org.testng.annotations.Test;
+import pages.HomePage;
 
 import static org.testng.Assert.assertTrue;
 
-public class CategoryItemsTests extends BaseTest {
+public class CategoryItemsTests extends Hooks {
 
     private final static String EXPECTED_CATEGORY_URL = "Camera-Drones";
     private final static int EXPECTED_MINIMUM_QUANTITY = 1;
     private final static Double EXPECTED_HIGHEST_PRICE = 35.00;
 
-    @Test(priority = 4)
+    @Test
     public void checkCameraDronesUrl() {
-        getHomePage().clickOnElectronicsMenu();
-        getElectronicsCategoryPage().clickOnCameraDronesCategoryLink();
-        assertTrue(getDriver().getCurrentUrl().contains(EXPECTED_CATEGORY_URL));
+        new HomePage(driver).clickOnElectronicsMenu()
+                .clickOnCameraDronesCategoryLink();
+        assertTrue(driver.getCurrentUrl().contains(EXPECTED_CATEGORY_URL));
     }
 
-    @Test(priority = 5)
+    @Test
     public void checkAuctionItemsList() {
-        getHomePage().clickOnElectronicsMenu();
-        getBasePage().waitForPageLoadComplete(5);
-        getElectronicsCategoryPage().clickOnCameraDronesCategoryLink();
-        getCameraDronesPage().clickOnAuctionTab();
-        getBasePage().implicitWait(5);
-        assertTrue(getCameraDronesPage().countItemsWithBids() >= EXPECTED_MINIMUM_QUANTITY);
+        var cameraDronesPage = new HomePage(driver).clickOnElectronicsMenu()
+                .clickOnCameraDronesCategoryLink()
+                .clickOnAuctionTab();
+        assertTrue(cameraDronesPage.countItemsWithBids() >= EXPECTED_MINIMUM_QUANTITY);
     }
 
-    @Test(priority = 6)
+    @Test
     public void checkFilteringItemsByPrice() {
-        getHomePage().clickOnElectronicsMenu();
-        getElectronicsCategoryPage().clickOnCameraDronesCategoryLink();
-        getCameraDronesPage().clickOnPriceFilterButton();
-        getCameraDronesPage().clickOnPriceUnder35FilterLink();
-        for (Double itemPrice : getCameraDronesPage().getItemPrices()) {
+        var cameraDronesPage = new HomePage(driver).clickOnElectronicsMenu()
+                .clickOnCameraDronesCategoryLink()
+                .clickOnPriceUnder35FilterLink();
+        for (Double itemPrice : cameraDronesPage.getItemPrices()) {
             assertTrue(itemPrice < EXPECTED_HIGHEST_PRICE);
         }
     }

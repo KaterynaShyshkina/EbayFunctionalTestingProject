@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.lang.Double.parseDouble;
 
-public class CameraDronesPage extends BasePage {
+public class CameraDronesPage extends AbstractPage {
 
     @FindBy(xpath = "//li[@class='fake-tabs__item btn']/a[contains(@href, 'Auction')]")
     WebElement auctionTab;
@@ -17,10 +17,7 @@ public class CameraDronesPage extends BasePage {
     @FindBy(xpath = "//span[contains(@class, 'bids')]")
     List<WebElement> bidsLabels;
 
-    @FindBy(xpath = "//button[@aria-controls='s0-26_2-9-0-1[0]-0-1-6-6-5[5]-flyout']")
-    WebElement priceFilterButton;
-
-    @FindBy(xpath = "//a[contains(@href, 'udhi=35')]")
+    @FindBy(id = "s0-29-13_2-0-1[1]-0-6-0-3[2]-1[0]")
     WebElement priceUnder35FilterLink;
 
     @FindBy(xpath = "//span[@class='s-item__price']")
@@ -30,26 +27,25 @@ public class CameraDronesPage extends BasePage {
         super(driver);
     }
 
-    public void clickOnAuctionTab() {
+    public CameraDronesPage clickOnAuctionTab() {
         auctionTab.click();
+        return this;
     }
 
     public int countItemsWithBids() {
         return bidsLabels.size();
     }
 
-    public void clickOnPriceFilterButton() {
-        priceFilterButton.click();
-    }
-
-    public void clickOnPriceUnder35FilterLink() {
+    public CameraDronesPage clickOnPriceUnder35FilterLink() {
         priceUnder35FilterLink.click();
+        return this;
     }
 
     public List<Double> getItemPrices() {
         List<Double> itemPricesDoubles = new ArrayList<Double>();
         for (WebElement webElement : itemPrices) {
-            itemPricesDoubles.add(parseDouble(webElement.getText().substring(1)));
+            itemPricesDoubles.add(parseDouble(webElement.getText()
+                    .substring(1, webElement.getText().indexOf('.')+3)));
         }
         return itemPricesDoubles;
     }
